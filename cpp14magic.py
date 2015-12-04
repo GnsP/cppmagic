@@ -27,21 +27,25 @@ except ImportError:
 from IPython.core.magic import Magics, magics_class, cell_magic
 
 @magics_class
-class CppMagics(Magics):
+class Cpp14Magics(Magics):
     """Magics for C++ compilation"""
 
     @cell_magic
-    def cpp(self, line, cell):
+    def cpp14(self, line, cell):
         """Compile C++ code into an executable, run it and show the output.
+        
+        **************************************************************
+        ** WORKS WITH g++-5 , IF YOU DONT HAVE IT, GET IT INSTALLED **
+        **************************************************************
 
         Usage, in cell mode::
 
-            %%cpp <compiler flags>
+            %%cpp14 <compiler flags>
             <C++ code>
 
         The compiler flags are passed verbatim to `g++` so they may be
         used to control warnings (`-Wall`), add optimizations (`-O2`), and
-        modify features (`-fno-builtin`).
+        modify features (`-fno-builtin`). --std=c++1y is already supplied.
         """  
         
         code = cell if cell.endswith('\n') else cell+'\n'
@@ -50,10 +54,11 @@ class CppMagics(Magics):
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
 
-        module_name = "_cpp_magic_" + \
-                      hashlib.md5(str(key).encode('utf-8')).hexdigest()
+        module_name = "_cpp14_magic_line_" + \
+                        str(line)
+#                      hashlib.md5(str(key).encode('utf-8')).hexdigest()
         c_name = module_name+'.cpp'
-        o_name = module_name+'.o'
+        o_name = module_name+'.out'
 
         c_path = os.path.join(lib_dir, c_name)
         o_path = os.path.join(lib_dir, o_name)
@@ -69,7 +74,7 @@ class CppMagics(Magics):
                     # Avoid a console window in Microsoft Windows.
                     startupinfo = subprocess.STARTUPINFO()
                     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-                subprocess.check_output(['g++', c_name, "-o", o_name] + line.split(),
+                subprocess.check_output(['g++-5 --std=c++1y', c_name, "-o", o_name] + line.split(),
                                         stderr=subprocess.STDOUT,
                                         cwd=lib_dir,
                                         startupinfo=startupinfo)
