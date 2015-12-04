@@ -49,7 +49,7 @@ class Cpp14Magics(Magics):
         """  
         
         code = cell if cell.endswith('\n') else cell+'\n'
-        lib_dir = os.path.join(self.shell.ipython_dir, 'tmp_cpp_magic')
+        lib_dir = os.path.join(self.shell.ipython_dir, 'tmp_cpp14_magic')
         key = line, code, sys.version_info, sys.executable
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
@@ -75,8 +75,8 @@ class Cpp14Magics(Magics):
                     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
                 subprocess.check_output(['g++-5 --std=c++1y', c_name, "-o", o_name] + line.split(),
                                         stderr=subprocess.STDOUT,
-                                        cwd=lib_dir
-                                        #startupinfo=startupinfo
+                                        cwd=lib_dir,
+                                        startupinfo=startupinfo
                                         )
                 
             except subprocess.CalledProcessError as e:
