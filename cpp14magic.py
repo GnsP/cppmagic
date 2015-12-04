@@ -103,5 +103,5 @@ def load_ipython_extension(ip):
     """Load the extension in IPython."""
     global _loaded
     if not _loaded:
-        ip.register_magics(CppMagics)
+        ip.register_magics(Cpp14Magics)
         _loaded = True
