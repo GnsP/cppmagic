@@ -55,8 +55,7 @@ class Cpp14Magics(Magics):
             os.makedirs(lib_dir)
 
         module_name = "_cpp14_magic_line_" + \
-                        str(line)
-#                      hashlib.md5(str(key).encode('utf-8')).hexdigest()
+                      hashlib.md5(str(key).encode('utf-8')).hexdigest()
         c_name = module_name+'.cpp'
         o_name = module_name+'.out'
 
@@ -76,8 +75,9 @@ class Cpp14Magics(Magics):
                     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
                 subprocess.check_output(['g++-5 --std=c++1y', c_name, "-o", o_name] + line.split(),
                                         stderr=subprocess.STDOUT,
-                                        cwd=lib_dir,
-                                        startupinfo=startupinfo)
+                                        cwd=lib_dir
+                                        #startupinfo=startupinfo
+                                        )
                 
             except subprocess.CalledProcessError as e:
                 print(e.output, file=sys.stderr)
