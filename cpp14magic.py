@@ -76,7 +76,7 @@ class Cpp14Magics(Magics):
                 subprocess.check_output(['g++-5 --std=c++1y ', c_name, "-o", o_name] + line.split(),
                                         stderr=subprocess.STDOUT,
                                         cwd=lib_dir,
-                                        startupinfo=startupinfo
+                                        #startupinfo=startupinfo
                                         )
                 
             except subprocess.CalledProcessError as e:
