@@ -73,7 +73,7 @@ class Cpp14Magics(Magics):
                     # Avoid a console window in Microsoft Windows.
                     startupinfo = subprocess.STARTUPINFO()
                     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-                subprocess.check_output(['g++-5 --std=c++1y', c_name, "-o", o_name] + line.split(),
+                subprocess.check_output(['g++-5 --std=c++1y ', c_name, "-o", o_name] + line.split(),
                                         stderr=subprocess.STDOUT,
                                         cwd=lib_dir,
                                         startupinfo=startupinfo
